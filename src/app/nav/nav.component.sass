@@ -1,0 +1,17 @@
+@import "../../styles"
+
+.eleonore-nav
+  @include fixed-position
+  z-index: 1111
+  top: 70px
+  left: 0
+  background-color: $color-pink
+  width: 70px
+  height: 100%
+  box-shadow: $box-shadow-side
+  .nav-link i
+    color: $color-purple
+  .nav-link i:active
+    color: whitesmoke
+  .nav-item:hover
+    background-color: $color-pink-hover
