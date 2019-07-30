@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+// Import
+@import "~@fortawesome/fontawesome-free/css/all.css"
+
+// Mixin
+@mixin fixed-position
+  position: fixed
+
+// Variables
+$box-shadow-color: dimgrey
+$box-shadow-bottom: 0px 1px 10px $box-shadow-color
+$box-shadow-side: 0px 7px 6px $box-shadow-color
+$color-pink: #ffe7f5
+$color-pink-hover: #f3d0e4c9
+$color-purple: #a3629e
+$color-grey: #534a4ac7
+
+// Common classes
+.eleonore-container
+  background-color: antiquewhite
+  width: 99%
+
+body
+  padding: 85px 0px 0px 85px
+
+.nav-item
+  text-align: center
+
+.eleonore-link
+  color: $color-purple
+  text-decoration: none
+
+.eleonore-link:hover
+  color: $color-pink-hover
+
+p, div, span
+  color: $color-grey
+
+.tooltip.show
+  opacity: 1
+
+.tooltip-inner
+  background-color: $color-purple
+  color: whitesmoke
+
+.tooltip .arrow::before
+  border-right-color: $color-purple
