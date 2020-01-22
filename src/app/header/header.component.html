@@ -1,5 +1,15 @@
 <header class="eleonore-header">
-
   HEADER
+  <div id="sign-in-button" *ngIf="isSignedIn === false">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signInModal">
+      <i class="fas fa-sign-in-alt"></i>
+    </button>
+  </div>
+  <div id="sign-out-button" *ngIf="isSignedIn === true">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signOutModal">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+  </div>
 
+  <app-login (isSignedIn)="onLoginStatusChange($event)"></app-login>
 </header>

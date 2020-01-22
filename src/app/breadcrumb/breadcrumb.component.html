@@ -1,3 +1,11 @@
-<div class="container-fluid eleonore-container eleonore-breadcrumb">
-  <p>Breadcrumb</p>
+<div class="container-fluid eleonore-container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" *ngFor="let path of paths" [class.active]="path.isActive"
+          [attr.aria-current]="path.isActive? 'page' : 'false'">
+        <a *ngIf="!path.isActive" href="#">{{path.path}}</a>
+        <span *ngIf="path.isActive">{{path.path}}</span>
+      </li>
+    </ol>
+  </nav>
 </div>

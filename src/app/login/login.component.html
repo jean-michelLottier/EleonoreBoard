@@ -1,0 +1,48 @@
+<div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="signIn()" #signInForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="signInModalLabel">Sign in</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="eleonore-login-id">Login</label>
+            <input type="text" id="eleonore-login-id" class="form-control" name="eleonore-login" placeholder="Enter your login" [(ngModel)]="login"/>
+          </div>
+          <div class="form-group">
+            <label for="eleonore-password-id">Password</label>
+            <input type="password" id="eleonore-password-id" class="form-control" name="eleonore-password" [(ngModel)]="password"/>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="signOutModal" tabindex="-1" role="dialog" aria-labelledby="signOutModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signOutModalLabel">Sign out</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Êtes-vous sûr de vouloir quitter la session ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+        <button type="submit" class="btn btn-primary" (click)="signOut()">Oui</button>
+      </div>
+    </div>
+  </div>
+</div>

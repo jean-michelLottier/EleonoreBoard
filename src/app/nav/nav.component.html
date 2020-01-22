@@ -1,7 +1,7 @@
 <nav class="eleonore-nav">
-  <ul class="nav flex-column">
+  <ul class="nav flex-column" *ngIf="isReadOnly === false">
     <li class="nav-item eleonore-tooltip" data-toggle="tooltip" data-placement="right" title="Dashboard">
-      <a class="nav-link">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
         <i class="fas fa-columns fa-2x"></i>
       </a>
     </li>
@@ -9,6 +9,14 @@
       <a class="nav-link">
         <i class="fas fa-satellite-dish fa-2x"></i>
       </a>
+    </li>
+  </ul>
+  <ul class="nav flex-column" *ngIf="isReadOnly === true">
+    <li class="nav-readonly-item">
+      <i class="fas fa-columns fa-2x"></i>
+    </li>
+    <li class="nav-readonly-item">
+      <i class="fas fa-satellite-dish fa-2x"></i>
     </li>
   </ul>
 </nav>

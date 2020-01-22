@@ -10,8 +10,8 @@
 $box-shadow-color: dimgrey
 $box-shadow-bottom: 0px 1px 10px $box-shadow-color
 $box-shadow-side: 0px 7px 6px $box-shadow-color
-$color-pink: #ffe7f5
-$color-pink-hover: #f3d0e4c9
+$color-pink: #f3f3f3
+$color-pink-hover: #f3d0e4d6
 $color-purple: #a3629e
 $color-grey: #534a4ac7
 
@@ -45,3 +45,14 @@ p, div, span
 
 .tooltip .arrow::before
   border-right-color: $color-purple
+
+.btn-primary, .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle
+  background-color: $color-purple
+  border-color: $color-purple
+
+.btn-primary:hover
+  background-color: $color-pink-hover
+  border-color: $color-pink-hover
+
+.btn-primary.focus, .btn-primary:focus
+  box-shadow: 0 0 0 0.2rem #a3629e42
