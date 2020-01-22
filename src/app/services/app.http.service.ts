@@ -46,12 +46,12 @@ export class HttpService {
   }
 
   getFullUrl(partialUrl: string, urlVariables: Map<string, string>, urlParams: Map<string, string>): string {
-    urlVariables.forEach((val, key) => partialUrl.replace(`{${key}}`, val));
+    urlVariables.forEach((val, key) => partialUrl = partialUrl.replace(`{${key}}`, val));
 
     if (urlParams.size !== 0) {
-      const params = '';
-      urlParams.forEach((val, key) => params.concat(`${key}=${val}&`));
-      partialUrl.concat('?', params.slice(0, -1));
+      let params = '';
+      urlParams.forEach((val, key) => params = params.concat(`${key}=${val}&`));
+      partialUrl = partialUrl.concat('?', params.slice(0, -1));
     }
 
     return this.baseUrl.concat(partialUrl);

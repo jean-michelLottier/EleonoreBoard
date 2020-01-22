@@ -2,21 +2,21 @@
   <ul class="nav flex-column" *ngIf="isReadOnly === false">
     <li class="nav-item eleonore-tooltip" data-toggle="tooltip" data-placement="right" title="Dashboard">
       <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
-        <i class="fas fa-columns fa-2x"></i>
+        <em class="fas fa-columns fa-2x"></em>
       </a>
     </li>
     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Sonar">
       <a class="nav-link">
-        <i class="fas fa-satellite-dish fa-2x"></i>
+        <em class="fas fa-satellite-dish fa-2x"></em>
       </a>
     </li>
   </ul>
   <ul class="nav flex-column" *ngIf="isReadOnly === true">
     <li class="nav-readonly-item">
-      <i class="fas fa-columns fa-2x"></i>
+      <em class="fas fa-columns fa-2x"></em>
     </li>
     <li class="nav-readonly-item">
-      <i class="fas fa-satellite-dish fa-2x"></i>
+      <em class="fas fa-satellite-dish fa-2x"></em>
     </li>
   </ul>
 </nav>

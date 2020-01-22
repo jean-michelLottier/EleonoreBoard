@@ -10,13 +10,12 @@ export class HeaderComponent {
     return this._isSignedIn;
   }
   // tslint:disable-next-line:variable-name
-  private _isSignedIn: boolean;
+  private _isSignedIn = false;
 
   constructor() {
-    this._isSignedIn = false;
   }
 
-  onLoginStatusChange(isSignedIn: boolean = false): void {
+  onLoginStatusChange(isSignedIn: boolean): void {
     this._isSignedIn = isSignedIn;
   }
 }
