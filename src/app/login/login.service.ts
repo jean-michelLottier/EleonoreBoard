@@ -14,7 +14,7 @@ export class LoginService {
       headers.set('X-Auth-Token', xAuthToken);
       headers.set('Content-Type', 'application/json');
     }
-    return this.http.post('/login', authentication, headers);
+    return this.http.post('/login', undefined, undefined, authentication, headers);
   }
 
   signOut() {

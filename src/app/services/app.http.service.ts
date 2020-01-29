@@ -10,7 +10,8 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  post(partialUrl: string = '', body: any, headers: Map<string, string> = new Map()) {
+  post<T>(partialUrl: string = '', urlVariables: Map<string, string> = new Map(), urlParams: Map<string, string> = new Map(),
+          body: any, headers: Map<string, string> = new Map()) {
     const httpHeaders = {};
 
     if (headers.size === 0) {
@@ -21,7 +22,7 @@ export class HttpService {
       });
     }
 
-    return this.http.post(this.baseUrl + partialUrl, body, {
+    return this.http.post<T>(this.getFullUrl(partialUrl, urlVariables, urlParams), body, {
       headers: httpHeaders,
       observe: 'response',
     });

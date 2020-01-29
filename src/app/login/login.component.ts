@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {LoginService} from './login.service';
 import {Router} from '@angular/router';
 import {FluxService} from '../services/app.flux.service';
+import {PathModel} from '../models/path.model';
 
 @Component({
   selector: 'app-login',
@@ -37,14 +38,18 @@ export class LoginComponent implements OnInit {
       console.log('User successfully signed in');
       // @ts-ignore
       $('#signInModal').modal('hide');
-      this.flux.publish(new Map<string, string>().set('nav', 'dashboard'));
+      this.flux.publish(new Map<string, any>()
+        .set('nav', 'dashboard')
+        .set('breadcrumb', new PathModel('dashboard', true))
+      );
+      // this.flux.publish(new Map<string, any>().set('breadcrumb', new PathModel('dashboard', false)))
       this.router.navigate(['/dashboard']);
     }, error => console.log(error));
   }
 
   signOut(): void {
     this.loginService.signOut().subscribe(res => {
-      localStorage.removeItem('X-Auth-Token');
+      localStorage.clear();
       this.isSignedIn.emit(false);
       console.log('User successfully signed out');
       // @ts-ignore

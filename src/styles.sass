@@ -41,10 +41,13 @@ p, div, span
 
 .tooltip-inner
   background-color: $color-purple
-  color: whitesmoke
+  color: white
 
-.tooltip .arrow::before
+.bs-tooltip-right .arrow::before
   border-right-color: $color-purple
+
+.bs-tooltip-bottom .arrow::before
+  border-bottom-color: $color-purple
 
 .btn-primary, .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle
   background-color: $color-purple

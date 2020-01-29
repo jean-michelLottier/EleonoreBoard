@@ -1,0 +1,55 @@
+<div class="modal fade" id="elementModal" tabindex="-1" role="dialog" aria-labelledby="elementModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="process()" #elementModalForm="ngForm" class="was-validated">
+        <div class="modal-header">
+          <h5 class="modal-title" id="elementModalLabel" *ngIf="modalRole === modalRoles.CREATION">New element</h5>
+          <h5 class="modal-title" id="elementModalLabel" *ngIf="modalRole === modalRoles.EDITION">Edit element</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearElement()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="getElementType() === types.SONAR && element !== undefined">
+          <div class="form-group">
+            <label for="eleonore-sonarurl-id">URL</label>
+            <input type="text" id="eleonore-sonarurl-id" class="form-control is-invalid" name="eleonore-sonarurl"
+                   placeholder="Base URL Sonar" [(ngModel)]="element.url" required minlength="5"/>
+          </div>
+          <div class="form-group">
+            <label for="eleonore-sonarprojectname-id">Project name</label>
+            <input type="text" id="eleonore-sonarprojectname-id" class="form-control" name="eleonore-sonarprojectname"
+                   [(ngModel)]="element.projectName"/>
+          </div>
+          <div class="form-group">
+            <label for="eleonore-projectkey-id">Project key</label>
+            <input type="text" id="eleonore-projectkey-id" class="form-control" name="eleonore-sonarprojectkey"
+                   [(ngModel)]="element.projectKey" required />
+          </div>
+          <div class="form-group">
+            <select class="form-control" (change)="onSelectMetric($event.target.value)">
+              <option *ngFor="let metric of sonarMetrics" [value]="metric.id">{{metric.name}}</option>
+            </select>
+          </div>
+          <div class="container">
+            <ul class="list-inline">
+              <li class="list-inline-item" *ngFor="let metric of selectedSonarMetrics">
+                <span class="badge badge-primary">{{metric.name}}&nbsp;&nbsp;
+                  <a [routerLink]="" (click)="removeMetric(metric)"><i class="fas fa-window-close"></i></a>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearElement()">Close
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="elementModalForm.form.invalid">
+            <span *ngIf="modalRole === modalRoles.CREATION">Create</span>
+            <span *ngIf="modalRole === modalRoles.EDITION">Modify</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

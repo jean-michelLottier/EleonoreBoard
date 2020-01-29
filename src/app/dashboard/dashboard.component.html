@@ -1,3 +1,51 @@
 <div class="container-fluid eleonore-container">
-  Dashboard Page
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Dashboards navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item" *ngFor="let dashboard of dashboards"
+            [class.dropdown]="dashboard.id === selectedDashboard.id">
+          <a *ngIf="dashboard.id !== selectedDashboard.id" class="nav-link" [routerLink]=""
+             (click)="selectDashboard(dashboard)">{{dashboard.name}}</a>
+          <div *ngIf="dashboard.id === selectedDashboard.id">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{dashboard.name}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" data-toggle="modal" data-target="#elementModal"
+                 (click)="openNewElementModal(elementTypes.SONAR)">Add Sonar project</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="bottom" title="New dashboard">
+          <a class="nav-link" data-toggle="modal" data-target="#dashboardModal">
+            <em class="fas fa-plus-square"></em>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <app-dashboard-modal (newDashboardEvent)="onNewDashboardCreated($event)"></app-dashboard-modal>
+  <app-element-modal [modalRole]="modalRoles.CREATION" [element]="element"
+                     [dashboardId]="selectedDashboard.id"
+                     (eventElement)="onNewElementCreated($event)"></app-element-modal>
+
+  <div class="container-fluid" [class.container-elements-first]="i === 0"
+       *ngFor="let el of selectedDashboard.elements; index as i">
+    <div class="row row-padding" *ngIf="i%3 === 0">
+      <div class="col" [class.remove-elt]="j+1-i < 1 || j+1-i > 3"
+           *ngFor="let el2 of selectedDashboard.elements; index as j">
+        <app-element *ngIf="j+1-i >= 1 && j+1-i <= 3" [element]="el2"></app-element>
+      </div>
+      <div class="col"
+           *ngIf="i+3 >= selectedDashboard.elements.length && selectedDashboard.elements.length%3 === 1"></div>
+      <div class="col"
+           *ngIf="i+3 >= selectedDashboard.elements.length && (selectedDashboard.elements.length+1)%3 === 2"></div>
+    </div>
+    <!--    <app-element *ngFor="let element of selectedDashboard.elements" [element]="element"></app-element>-->
+  </div>
 </div>

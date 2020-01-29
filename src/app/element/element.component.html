@@ -1,0 +1,14 @@
+<div class="card card-element" *ngIf="element.type === elementTypes.SONAR">
+  <div class="card-body">
+    <h5 class="card-title">Project: {{element.projectKey}}</h5>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let measure of metrics.measures">
+          <i class="fas fa-bullseye"
+             [ngClass]="{'best-value-metric':measure.bestValue === true, 'not-best-value-metric':measure.bestValue === false}"></i>
+          {{measure.metric | replaceCharacters:'_' :' ' | capitalize: ' '}}: {{measure.value}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
