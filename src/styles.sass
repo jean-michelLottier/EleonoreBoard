@@ -17,7 +17,7 @@ $color-grey: #534a4ac7
 
 // Common classes
 .eleonore-container
-  background-color: antiquewhite
+  background-color: white
   width: 99%
 
 body
@@ -43,10 +43,13 @@ p, div, span
   background-color: $color-purple
   color: white
 
-.bs-tooltip-right .arrow::before
+.tooltip.bs-tooltip-right .arrow::before
   border-right-color: $color-purple
 
-.bs-tooltip-bottom .arrow::before
+.tooltip.bs-tooltip-bottom .arrow::before
+  border-bottom-color: $color-purple
+
+.tooltip.bs-tooltip-top .arrow::before
   border-bottom-color: $color-purple
 
 .btn-primary, .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle

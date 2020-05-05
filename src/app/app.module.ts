@@ -13,6 +13,7 @@ import {ElementModalComponent} from './element/modal/element.modal.component';
 import {HeaderComponent} from './header/header.component';
 import {LoginComponent} from './login/login.component';
 import {NavComponent} from './nav/nav.component';
+import {SonarElementComponent} from './sonar/sonar.element.component';
 
 import {HttpService} from './services/app.http.service';
 import {LoginService} from './login/login.service';
@@ -21,6 +22,9 @@ import {SonarService} from './services/app.sonar.service';
 
 import {ReplaceCharactersPipe} from './pipe/app-replacecharacters-pipe';
 import {CapitalizePipe} from './pipe/app-capitalize-pipe';
+import {ListConverterPipe} from './pipe/app-listconverter-pipe';
+import {PeriodFormatterPipe} from './pipe/app-periodformatter-pipe';
+import {RatingPipe} from './pipe/app-rating-pipe';
 
 @NgModule({
   declarations: [
@@ -32,9 +36,13 @@ import {CapitalizePipe} from './pipe/app-capitalize-pipe';
     ElementComponent,
     ElementModalComponent,
     HeaderComponent,
+    ListConverterPipe,
     LoginComponent,
     NavComponent,
+    PeriodFormatterPipe,
+    RatingPipe,
     ReplaceCharactersPipe,
+    SonarElementComponent,
   ],
   imports: [
     BrowserModule,

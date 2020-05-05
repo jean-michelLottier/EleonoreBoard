@@ -430,7 +430,7 @@
     "id": "53",
     "key": "new_duplicated_lines_density",
     "type": "PERCENT",
-    "name": "Duplicated Lines on New Code",
+    "name": "Duplicated Lines (%) on New Code",
     "description": "Duplicated lines on new code balanced by statements",
     "domain": "Duplications",
     "direction": -1,

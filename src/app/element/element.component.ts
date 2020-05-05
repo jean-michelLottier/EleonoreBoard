@@ -12,21 +12,25 @@ export class ElementComponent implements OnInit {
   @Input()
   element: ElementModel;
   elementTypes = ElementType;
-  metrics: object;
+  component: object;
 
   constructor(private sonarService: SonarService) {
     this.element = new ElementModel();
-    this.metrics = {};
+    this.component = {};
   }
 
   ngOnInit(): void {
+    $(() => {
+      $('[data-toggle="tooltip"]').tooltip({sanitize: false, sanitizeFn: content => content});
+    });
+
     this.getElementInformation();
   }
 
   getElementInformation() {
     if (this.element.type === ElementType.SONAR.toString()) {
       this.sonarService.getMetrics(this.element.id).subscribe(res => {
-        this.metrics = res.body;
+        this.component = res.body;
       }, error => console.log(error.message));
     }
   }

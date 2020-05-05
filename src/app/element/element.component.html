@@ -1,14 +1,18 @@
 <div class="card card-element" *ngIf="element.type === elementTypes.SONAR">
-  <div class="card-body">
-    <h5 class="card-title">Project: {{element.projectKey}}</h5>
-    <div class="card-body">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let measure of metrics.measures">
-          <i class="fas fa-bullseye"
-             [ngClass]="{'best-value-metric':measure.bestValue === true, 'not-best-value-metric':measure.bestValue === false}"></i>
-          {{measure.metric | replaceCharacters:'_' :' ' | capitalize: ' '}}: {{measure.value}}
-        </li>
-      </ul>
+  <div class="card-header">
+    <h5>{{element.projectKey}}</h5>
+    <div class="dropdown dropleft">
+      <a class="eleonore-card-menu" href="#" role="button" id="cardMenuLink"
+         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <em class="fas fa-ellipsis-v"></em>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="cardMenuLink">
+        <a class="dropdown-item" href="#">Modify</a>
+        <a class="dropdown-item" href="#">Delete</a>
+      </div>
     </div>
+  </div>
+  <div class="card-body">
+    <app-sonar-element [component]="component" *ngIf="this.element.type === elementTypes.SONAR"></app-sonar-element>
   </div>
 </div>
