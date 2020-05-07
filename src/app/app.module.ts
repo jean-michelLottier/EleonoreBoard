@@ -12,6 +12,7 @@ import {ElementComponent} from './element/element.component';
 import {ElementModalComponent} from './element/modal/element.modal.component';
 import {HeaderComponent} from './header/header.component';
 import {LoginComponent} from './login/login.component';
+import {LogoutComponent} from './login/logout.component';
 import {NavComponent} from './nav/nav.component';
 import {SonarElementComponent} from './sonar/sonar.element.component';
 
@@ -38,6 +39,7 @@ import {RatingPipe} from './pipe/app-rating-pipe';
     HeaderComponent,
     ListConverterPipe,
     LoginComponent,
+    LogoutComponent,
     NavComponent,
     PeriodFormatterPipe,
     RatingPipe,

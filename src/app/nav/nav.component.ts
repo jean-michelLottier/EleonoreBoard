@@ -19,7 +19,7 @@ export class NavComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.location.path().endsWith('login')) {
+    if (this.location.path().endsWith('logout')) {
       this._isReadOnly = true;
     } else {
       this._isReadOnly = false;
@@ -30,7 +30,7 @@ export class NavComponent implements OnInit {
         return;
       }
 
-      if (dataset.get('nav') === 'login') {
+      if (dataset.get('nav') === 'logout') {
         this._isReadOnly = true;
       } else {
         this._isReadOnly = false;

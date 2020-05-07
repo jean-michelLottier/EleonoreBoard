@@ -38,7 +38,11 @@ export class BreadcrumbComponent implements OnInit {
     let breadcrumbStr = localStorage.getItem(BreadcrumbComponent.BREADCRUMB_KEY);
     const index = this.breadcrumb.findIndex(el => el === pathModel);
     if (index === -1) {
-      if (breadcrumbStr) {
+      if (pathModel.path === 'logout') {
+        localStorage.removeItem(BreadcrumbComponent.BREADCRUMB_KEY);
+        this.breadcrumb = [];
+        return;
+      } else if (breadcrumbStr) {
         breadcrumbStr += '/' + pathModel.path;
       } else {
         breadcrumbStr = pathModel.path;

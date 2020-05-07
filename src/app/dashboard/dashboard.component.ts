@@ -4,6 +4,7 @@ import {HttpService} from '../services/app.http.service';
 import {SonarModel} from '../models/sonar.model';
 import {ElementType, ModalRole} from '../element/modal/element.modal.component';
 import {ElementModel} from '../models/element.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,7 @@ export class DashboardComponent implements OnInit {
   elementTypes = ElementType;
   element: ElementModel;
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private router: Router) {
     this.selectedDashboard = new DashboardModel();
   }
 
@@ -46,7 +47,12 @@ export class DashboardComponent implements OnInit {
             this.selectDashboard(this.dashboards[0]);
           }
         },
-        error => console.log('error retrieve dashboard list'));
+        error => {
+          if (error.status === 401) {
+            localStorage.clear();
+            this.router.navigate(['/logout']);
+          }
+        });
   }
 
   onNewDashboardCreated(newDashboard: DashboardModel): void {
