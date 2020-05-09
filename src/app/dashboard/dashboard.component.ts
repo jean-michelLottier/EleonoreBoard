@@ -49,8 +49,7 @@ export class DashboardComponent implements OnInit {
         },
         error => {
           if (error.status === 401) {
-            localStorage.clear();
-            this.router.navigate(['/logout']);
+            this.disconnect();
           }
         });
   }
@@ -67,6 +66,11 @@ export class DashboardComponent implements OnInit {
     this.selectedDashboard.elements.push(element);
   }
 
+  onElementDeleted(elementId: number): void {
+    // Reload the selected dashboard to take in count modification caused by the element removal
+    this.selectDashboard(this.selectedDashboard);
+  }
+
   selectDashboard(dashboard: DashboardModel): void {
     const headers = new Map();
     const xAuthToken = localStorage.getItem('X-Auth-Token');
@@ -78,9 +82,13 @@ export class DashboardComponent implements OnInit {
     const urlParams = new Map<string, string>();
     urlParams.set('id', dashboard.id.toString());
 
-    this.http.get<DashboardModel>('/dashboard', undefined, urlParams, headers).subscribe(res => {
-      this.selectedDashboard = res.body;
-    }, error => console.log(error.message));
+    this.http.get<DashboardModel>('/dashboard', undefined, urlParams, headers)
+      .subscribe(res => this.selectedDashboard = res.body
+        , error => {
+          if (error.status === 401) {
+            this.disconnect();
+          }
+        });
   }
 
   openNewElementModal(type: ElementType): void {
@@ -91,5 +99,10 @@ export class DashboardComponent implements OnInit {
       case ElementType.JENKINS:
       default:
     }
+  }
+
+  disconnect(): void {
+    localStorage.clear();
+    this.router.navigate(['/logout']);
   }
 }

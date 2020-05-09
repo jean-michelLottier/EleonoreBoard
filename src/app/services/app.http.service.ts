@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 
@@ -12,15 +12,7 @@ export class HttpService {
 
   post<T>(partialUrl: string = '', urlVariables: Map<string, string> = new Map(), urlParams: Map<string, string> = new Map(),
           body: any, headers: Map<string, string> = new Map()) {
-    const httpHeaders = {};
-
-    if (headers.size === 0) {
-      httpHeaders['Content-Type'] = 'application/json';
-    } else {
-      headers.forEach((val, key) => {
-        httpHeaders[key] = val;
-      });
-    }
+    const httpHeaders = this.initHttpHeaders(headers);
 
     return this.http.post<T>(this.getFullUrl(partialUrl, urlVariables, urlParams), body, {
       headers: httpHeaders,
@@ -30,20 +22,34 @@ export class HttpService {
 
   get<T>(partialUrl: string = '', urlVariables: Map<string, string> = new Map(), urlParams: Map<string, string> = new Map(),
          headers: Map<string, string> = new Map()): Observable<HttpResponse<T>> {
-    const httpHeaders = {};
-
-    if (headers.size === 0) {
-      httpHeaders['Content-Type'] = 'application/json';
-    } else {
-      headers.forEach((val, key) => {
-        httpHeaders[key] = val;
-      });
-    }
+    const httpHeaders = this.initHttpHeaders(headers);
 
     return this.http.get<T>(this.getFullUrl(partialUrl, urlVariables, urlParams), {
       headers: httpHeaders,
       observe: 'response',
     });
+  }
+
+  delete(partialUrl: string = '', urlVariables: Map<string, string> = new Map(), urlParams: Map<string, string> = new Map(),
+         headers: Map<string, string> = new Map()): Observable<HttpResponse<object>> {
+    const httpHeaders = this.initHttpHeaders(headers);
+
+    return this.http.delete(this.getFullUrl(partialUrl, urlVariables, urlParams), {
+      headers: httpHeaders,
+      observe: 'response',
+    });
+  }
+
+  initHttpHeaders(headers: Map<string, string>): HttpHeaders {
+    let httpHeaders = new HttpHeaders();
+
+    if (headers.size === 0) {
+      httpHeaders = httpHeaders.set('Content-Type', 'application/json');
+    } else {
+      headers.forEach((val, key) => httpHeaders = httpHeaders.set(key, val));
+    }
+
+    return httpHeaders;
   }
 
   getFullUrl(partialUrl: string, urlVariables: Map<string, string>, urlParams: Map<string, string>): string {

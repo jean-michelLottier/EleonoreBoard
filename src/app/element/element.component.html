@@ -1,6 +1,6 @@
 <div class="card card-element" *ngIf="element.type === elementTypes.SONAR">
   <div class="card-header">
-    <h5>{{element.projectKey}}</h5>
+    <h5>{{element.projectName}}</h5>
     <div class="dropdown dropleft">
       <a class="eleonore-card-menu" href="#" role="button" id="cardMenuLink"
          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -8,11 +8,30 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="cardMenuLink">
         <a class="dropdown-item" href="#">Modify</a>
-        <a class="dropdown-item" href="#">Delete</a>
+        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delElementModal">Delete</a>
       </div>
     </div>
   </div>
   <div class="card-body">
     <app-sonar-element [component]="component" *ngIf="this.element.type === elementTypes.SONAR"></app-sonar-element>
+  </div>
+</div>
+
+<div class="modal fade" id="delElementModal" tabindex="-1" role="dialog" aria-labelledby="delElementModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="delElementModalLabel">Suppression</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Êtes-vous sûr de vouloir supprimer le projet {{element.projectName}} ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+        <button type="submit" class="btn btn-primary" (click)="delete()">Oui</button>
+      </div>
+    </div>
   </div>
 </div>

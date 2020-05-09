@@ -39,13 +39,13 @@
     <div class="row row-padding" *ngIf="i%3 === 0">
       <div class="col" [class.remove-elt]="j+1-i < 1 || j+1-i > 3"
            *ngFor="let el2 of selectedDashboard.elements; index as j">
-        <app-element *ngIf="j+1-i >= 1 && j+1-i <= 3" [element]="el2"></app-element>
+        <app-element *ngIf="j+1-i >= 1 && j+1-i <= 3" [element]="el2" [dashboardId]="selectedDashboard.id"
+                     (eventDeleteElt)="onElementDeleted($event)"></app-element>
       </div>
       <div class="col"
            *ngIf="i+3 >= selectedDashboard.elements.length && selectedDashboard.elements.length%3 === 1"></div>
       <div class="col"
            *ngIf="i+3 >= selectedDashboard.elements.length && (selectedDashboard.elements.length+1)%3 === 2"></div>
     </div>
-    <!--    <app-element *ngFor="let element of selectedDashboard.elements" [element]="element"></app-element>-->
   </div>
 </div>
