@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {FluxService} from '../services/app.flux.service';
-import {PathModel} from '../models/path.model';
+import {FluxService} from '../common/services/app.flux.service';
+import {PathModel} from '../common/models/path.model';
 
 @Component({
   selector: 'app-logout',

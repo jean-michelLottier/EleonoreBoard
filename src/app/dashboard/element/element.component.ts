@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../models/element.model';
 import {ElementType} from './modal/element.modal.component';
-import {SonarService} from '../services/app.sonar.service';
-import {HttpService} from '../services/app.http.service';
+import {SonarService} from '../../sonar/services/app.sonar.service';
+import {HttpService} from '../../common/services/app.http.service';
 import {Router} from '@angular/router';
 
 @Component({

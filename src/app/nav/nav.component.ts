@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {FluxService} from '../services/app.flux.service';
+import {FluxService} from '../common/services/app.flux.service';
 
 @Component({
   selector: 'app-nav',

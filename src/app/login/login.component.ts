@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {LoginService} from './login.service';
+import {LoginService} from './services/login.service';
 import {Router} from '@angular/router';
-import {FluxService} from '../services/app.flux.service';
-import {PathModel} from '../models/path.model';
+import {FluxService} from '../common/services/app.flux.service';
+import {PathModel} from '../common/models/path.model';
 
 @Component({
   selector: 'app-login',

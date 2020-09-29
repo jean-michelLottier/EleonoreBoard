@@ -1,4 +1,4 @@
-import {ElementModel} from './element.model';
+import {ElementModel} from '../../dashboard/models/element.model';
 import {SonarMetricsModel} from './sonarmetrics.model';
 
 export class SonarModel extends ElementModel {

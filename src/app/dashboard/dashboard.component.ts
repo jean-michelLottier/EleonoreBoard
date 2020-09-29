@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {DashboardModel} from '../models/dasboard.model';
-import {HttpService} from '../services/app.http.service';
-import {SonarModel} from '../models/sonar.model';
-import {ElementType, ModalRole} from '../element/modal/element.modal.component';
-import {ElementModel} from '../models/element.model';
+import {DashboardModel} from './models/dasboard.model';
+import {HttpService} from '../common/services/app.http.service';
+import {SonarModel} from '../sonar/models/sonar.model';
+import {ElementType, ModalRole} from './element/modal/element.modal.component';
+import {ElementModel} from './models/element.model';
 import {Router} from '@angular/router';
 
 @Component({

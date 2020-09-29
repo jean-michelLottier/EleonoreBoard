@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from './app.http.service';
+import {HttpService} from '../../common/services/app.http.service';
 import {SonarqubeModel} from '../models/sonarqube.model';
 import {Observable} from 'rxjs';
 import {HttpResponse} from '@angular/common/http';

@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../../models/element.model';
-import {SonarModel} from '../../models/sonar.model';
+import {SonarModel} from '../../../sonar/models/sonar.model';
 import {HttpClient} from '@angular/common/http';
-import {HttpService} from '../../services/app.http.service';
-import {SonarMetricsModel} from '../../models/sonarmetrics.model';
+import {HttpService} from '../../../common/services/app.http.service';
+import {SonarMetricsModel} from '../../../sonar/models/sonarmetrics.model';
 
 @Component({
   selector: 'app-element-modal',

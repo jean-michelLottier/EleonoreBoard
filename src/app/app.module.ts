@@ -2,57 +2,41 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {DashboardModule} from './dashboard/dashboard.module';
+import {PipeModule} from './pipe/pipe.module';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {DashboardModalComponent} from './dashboard/modal/dashboard.modal.component';
-import {ElementComponent} from './element/element.component';
-import {ElementModalComponent} from './element/modal/element.modal.component';
 import {HeaderComponent} from './header/header.component';
 import {LoginComponent} from './login/login.component';
 import {LogoutComponent} from './login/logout.component';
 import {NavComponent} from './nav/nav.component';
-import {SonarElementComponent} from './sonar/sonar.element.component';
 
-import {HttpService} from './services/app.http.service';
-import {LoginService} from './login/login.service';
-import {FluxService} from './services/app.flux.service';
-import {SonarService} from './services/app.sonar.service';
-
-import {ReplaceCharactersPipe} from './pipe/app-replacecharacters-pipe';
-import {CapitalizePipe} from './pipe/app-capitalize-pipe';
-import {ListConverterPipe} from './pipe/app-listconverter-pipe';
-import {PeriodFormatterPipe} from './pipe/app-periodformatter-pipe';
-import {RatingPipe} from './pipe/app-rating-pipe';
+import {HttpService} from './common/services/app.http.service';
+import {LoginService} from './login/services/login.service';
+import {FluxService} from './common/services/app.flux.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     BreadcrumbComponent,
-    CapitalizePipe,
-    DashboardComponent,
-    DashboardModalComponent,
-    ElementComponent,
-    ElementModalComponent,
     HeaderComponent,
-    ListConverterPipe,
     LoginComponent,
     LogoutComponent,
     NavComponent,
-    PeriodFormatterPipe,
-    RatingPipe,
-    ReplaceCharactersPipe,
-    SonarElementComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    DashboardModule,
+    PipeModule,
+    AppRoutingModule, // It has to be the last module imported
   ],
-  providers: [FluxService, HttpService, LoginService, SonarService],
+  exports: [
+  ],
+  providers: [FluxService, HttpService, LoginService],
   bootstrap: [
     AppComponent,
   ]

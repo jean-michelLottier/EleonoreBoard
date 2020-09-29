@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {DashboardModel} from '../../models/dasboard.model';
-import {HttpService} from '../../services/app.http.service';
+import {DashboardModel} from '../models/dasboard.model';
+import {HttpService} from '../../common/services/app.http.service';
 
 @Component({
   selector: 'app-dashboard-modal',
