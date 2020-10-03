@@ -15,6 +15,7 @@ export class LogoutComponent implements OnInit {
     this.flux.publish(new Map<string, any>()
       .set('nav', 'logout')
       .set('breadcrumb', new PathModel('logout', false))
+      .set('header', 'logout')
     );
   }
 }

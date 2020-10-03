@@ -1,16 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../models/element.model';
-import {ElementType} from './modal/element.modal.component';
 import {SonarService} from '../../sonar/services/app.sonar.service';
 import {HttpService} from '../../common/services/app.http.service';
 import {Router} from '@angular/router';
+import {BaseComponent} from '../../common/base-component';
+import {ElementType} from '../models/element-type.enum';
 
 @Component({
   selector: 'app-element',
   templateUrl: 'element.component.html',
   styleUrls: ['element.component.sass'],
 })
-export class ElementComponent implements OnInit {
+export class ElementComponent extends BaseComponent implements OnInit {
   @Input()
   dashboardId: number;
   @Input()
@@ -20,7 +21,8 @@ export class ElementComponent implements OnInit {
   @Output()
   eventDeleteElt: EventEmitter<number>;
 
-  constructor(private sonarService: SonarService, private http: HttpService, private router: Router) {
+  constructor(private sonarService: SonarService, private http: HttpService, protected router: Router) {
+    super(router);
     this.element = new ElementModel();
     this.component = {};
     this.eventDeleteElt = new EventEmitter<number>();
@@ -47,13 +49,7 @@ export class ElementComponent implements OnInit {
   }
 
   delete(): void {
-    const headers = new Map();
-    const xAuthToken = localStorage.getItem('X-Auth-Token');
-    if (xAuthToken) {
-      headers.set('X-Auth-Token', xAuthToken);
-      headers.set('Content-Type', 'application/json');
-    }
-
+    const headers = this.getBaseHeader();
     const urlParams = new Map<string, string>();
     urlParams.set('dashboardId', String(this.dashboardId));
     urlParams.set('elementId', String(this.element.id));
@@ -69,10 +65,5 @@ export class ElementComponent implements OnInit {
           this.disconnect();
         }
       });
-  }
-
-  disconnect(): void {
-    localStorage.clear();
-    this.router.navigate(['/logout']);
   }
 }

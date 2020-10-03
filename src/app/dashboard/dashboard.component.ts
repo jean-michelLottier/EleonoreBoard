@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {DashboardModel} from './models/dasboard.model';
 import {HttpService} from '../common/services/app.http.service';
 import {SonarModel} from '../sonar/models/sonar.model';
-import {ElementType, ModalRole} from './element/modal/element.modal.component';
+import {ModalRole} from './element/modal/element.modal.component';
 import {ElementModel} from './models/element.model';
 import {Router} from '@angular/router';
+import {BaseComponent} from '../common/base-component';
+import {ElementType} from './models/element-type.enum';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends BaseComponent implements OnInit {
   dashboards: DashboardModel[];
   selectedDashboard: DashboardModel;
 
@@ -20,7 +22,8 @@ export class DashboardComponent implements OnInit {
   elementTypes = ElementType;
   element: ElementModel;
 
-  constructor(private http: HttpService, private router: Router) {
+  constructor(private http: HttpService, router: Router) {
+    super(router);
     this.selectedDashboard = new DashboardModel();
   }
 
@@ -30,12 +33,7 @@ export class DashboardComponent implements OnInit {
 
   // @ts-ignore
   listDashboards(): DashboardModel[] {
-    const headers = new Map();
-    const xAuthToken = localStorage.getItem('X-Auth-Token');
-    if (xAuthToken) {
-      headers.set('X-Auth-Token', xAuthToken);
-      headers.set('Content-Type', 'application/json');
-    }
+    const headers = this.getBaseHeader();
 
     this.http.get<DashboardModel[]>('/dashboard/list', undefined, undefined, headers)
       .subscribe(res => {
@@ -72,13 +70,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectDashboard(dashboard: DashboardModel): void {
-    const headers = new Map();
-    const xAuthToken = localStorage.getItem('X-Auth-Token');
-    if (xAuthToken) {
-      headers.set('X-Auth-Token', xAuthToken);
-      headers.set('Content-Type', 'application/json');
-    }
-
+    const headers = this.getBaseHeader();
     const urlParams = new Map<string, string>();
     urlParams.set('id', dashboard.id.toString());
 
@@ -99,10 +91,5 @@ export class DashboardComponent implements OnInit {
       case ElementType.JENKINS:
       default:
     }
-  }
-
-  disconnect(): void {
-    localStorage.clear();
-    this.router.navigate(['/logout']);
   }
 }

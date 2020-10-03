@@ -3,19 +3,21 @@ import {LoginService} from './services/login.service';
 import {Router} from '@angular/router';
 import {FluxService} from '../common/services/app.flux.service';
 import {PathModel} from '../common/models/path.model';
+import {BaseComponent} from '../common/base-component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
   private static X_AUTH_TOKEN = 'X-Auth-Token';
   login: string;
   password: string;
   @Output()
   isSignedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private loginService: LoginService, private router: Router, private flux: FluxService) {
+  constructor(private loginService: LoginService, protected router: Router, private flux: FluxService) {
+    super(router);
   }
 
   ngOnInit(): void {
@@ -24,10 +26,7 @@ export class LoginComponent implements OnInit {
       this.isSignedIn.emit(true);
     } else {
       this.isSignedIn.emit(false);
-      this.flux.publish(new Map<string, any>()
-        .set('nav', 'logout')
-        .set('breadcrumb', new PathModel('logout', false))
-      );
+      this.disconnect();
     }
   }
 
@@ -51,15 +50,10 @@ export class LoginComponent implements OnInit {
 
   signOut(): void {
     this.loginService.signOut().subscribe(res => {
-      localStorage.clear();
       this.isSignedIn.emit(false);
       // @ts-ignore
       $('#signOutModal').modal('hide');
-      this.flux.publish(new Map<string, any>()
-        .set('nav', 'logout')
-        .set('breadcrumb', new PathModel('logout', false))
-      );
-      this.router.navigate(['/logout']);
+      this.disconnect();
     }, error => console.log(error));
   }
 }

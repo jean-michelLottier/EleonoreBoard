@@ -4,13 +4,16 @@ import {SonarModel} from '../../../sonar/models/sonar.model';
 import {HttpClient} from '@angular/common/http';
 import {HttpService} from '../../../common/services/app.http.service';
 import {SonarMetricsModel} from '../../../sonar/models/sonarmetrics.model';
+import {BaseComponent} from '../../../common/base-component';
+import {Router} from '@angular/router';
+import {ElementType} from '../../models/element-type.enum';
 
 @Component({
   selector: 'app-element-modal',
   templateUrl: 'element.modal.component.html',
   styleUrls: ['element.modal.component.sass']
 })
-export class ElementModalComponent implements OnInit {
+export class ElementModalComponent extends BaseComponent implements OnInit {
   modalRoles = ModalRole;
   types = ElementType;
   sonarMetrics: any[];
@@ -24,7 +27,8 @@ export class ElementModalComponent implements OnInit {
   @Output()
   eventElement: EventEmitter<ElementModel>;
 
-  constructor(private httpService: HttpClient, private http: HttpService) {
+  constructor(private httpService: HttpClient, private http: HttpService, protected router: Router) {
+    super(router);
     this.element = new ElementModel();
     this.selectedSonarMetrics = [];
     this.eventElement = new EventEmitter<ElementModel>();
@@ -51,13 +55,7 @@ export class ElementModalComponent implements OnInit {
       this.element.sonarMetrics = sonarMetricsModel;
     }
 
-    const headers = new Map();
-    const xAuthToken = localStorage.getItem('X-Auth-Token');
-    if (xAuthToken) {
-      headers.set('X-Auth-Token', xAuthToken);
-      headers.set('Content-Type', 'application/json');
-    }
-
+    const headers = this.getBaseHeader();
     const urlParams = new Map<string, string>();
     urlParams.set('dashboardId', this.dashboardId.toString());
     console.log(this.element);
@@ -116,8 +114,4 @@ export class ElementModalComponent implements OnInit {
 
 export enum ModalRole {
   CREATION, EDITION
-}
-
-export enum ElementType {
-  SONAR= 'SONAR', JENKINS= 'JENKINS'
 }

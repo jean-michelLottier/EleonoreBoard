@@ -1,15 +1,18 @@
 import {Component, Input} from '@angular/core';
+import {BaseComponent} from '../common/base-component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sonar-element',
   templateUrl: 'sonar.element.component.html',
   styleUrls: ['sonar.element.component.sass']
 })
-export class SonarElementComponent {
+export class SonarElementComponent extends BaseComponent {
   @Input()
   component: object;
 
-  constructor() {
+  constructor(protected router: Router) {
+    super(router);
   }
 
   sortByMetric() {
@@ -69,6 +72,6 @@ export class SonarElementComponent {
 
   getCategory(metrics: Array<string>, compare?: any): any {
     // @ts-ignore
-    return this.component.measures.filter(elt => metrics.includes(elt.metric)).sort(compare);
+    return this.component.measures ? this.component.measures.filter(elt => metrics.includes(elt.metric)).sort(compare) : [];
   }
 }

@@ -8,7 +8,7 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="cardMenuLink">
         <a class="dropdown-item" href="#">Modify</a>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delElementModal">Delete</a>
+        <a class="dropdown-item" href="#" data-toggle="modal" [attr.data-target]="'#delElementModal' + element.id">Delete</a>
       </div>
     </div>
   </div>
@@ -17,12 +17,12 @@
   </div>
 </div>
 
-<div class="modal fade" id="delElementModal" tabindex="-1" role="dialog" aria-labelledby="delElementModalLabel"
-     aria-hidden="true">
+<div class="modal fade" [attr.id]="'delElementModal' + element.id" data-backdrop="static"
+     tabindex="-1" role="dialog" attr.aria-labelledby="delElementModal{{element.id}}Label" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="delElementModalLabel">Suppression</h5>
+        <h5 class="modal-title" id="delElementModal{{element.id}}Label">Suppression</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

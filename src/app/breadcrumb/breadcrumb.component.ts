@@ -2,18 +2,21 @@ import {Component, OnInit} from '@angular/core';
 import {PathModel} from '../common/models/path.model';
 import {FluxService} from '../common/services/app.flux.service';
 import {Location} from '@angular/common';
+import {BaseComponent} from '../common/base-component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.sass']
 })
-export class BreadcrumbComponent implements OnInit {
+export class BreadcrumbComponent extends BaseComponent implements OnInit {
   private static BREADCRUMB_KEY = 'breadcrumb';
 
   breadcrumb: PathModel[] = [];
 
-  constructor(private flux: FluxService, private location: Location) {
+  constructor(private flux: FluxService, private location: Location, protected router: Router) {
+    super(router);
     this.breadcrumb = [];
     const breadcrumbStr = localStorage.getItem(BreadcrumbComponent.BREADCRUMB_KEY);
     if (breadcrumbStr) {
