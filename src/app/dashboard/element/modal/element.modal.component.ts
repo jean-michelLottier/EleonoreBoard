@@ -1,12 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../../models/element.model';
-import {SonarModel} from '../../../sonar/models/sonar.model';
-import {HttpClient} from '@angular/common/http';
-import {HttpService} from '../../../common/services/app.http.service';
-import {SonarMetricsModel} from '../../../sonar/models/sonarmetrics.model';
 import {BaseComponent} from '../../../common/base-component';
 import {Router} from '@angular/router';
 import {ElementType} from '../../models/element-type.enum';
+import {ModalRole} from '../../models/modal-role.enum';
 
 @Component({
   selector: 'app-element-modal',
@@ -16,8 +13,6 @@ import {ElementType} from '../../models/element-type.enum';
 export class ElementModalComponent extends BaseComponent implements OnInit {
   modalRoles = ModalRole;
   types = ElementType;
-  sonarMetrics: any[];
-  selectedSonarMetrics: any[];
   @Input()
   modalRole: ModalRole;
   @Input()
@@ -26,92 +21,32 @@ export class ElementModalComponent extends BaseComponent implements OnInit {
   dashboardId: number;
   @Output()
   eventElement: EventEmitter<ElementModel>;
+  onProcess: EventEmitter<ModalRole>;
 
-  constructor(private httpService: HttpClient, private http: HttpService, protected router: Router) {
+  constructor(protected router: Router) {
     super(router);
     this.element = new ElementModel();
-    this.selectedSonarMetrics = [];
     this.eventElement = new EventEmitter<ElementModel>();
+    this.onProcess = new EventEmitter<ModalRole>();
   }
 
   ngOnInit(): void {
-    this.getSonarMetrics();
   }
 
   process(): void {
-    if (this.modalRole === ModalRole.CREATION) {
-      this.createElement();
-    } else if (this.modalRole === ModalRole.EDITION) {
-      this.editElement();
-    } else {
-      throw Error('Modal role unknown');
-    }
-  }
-
-  createElement(): void {
-    if (this.element instanceof SonarModel) {
-      const sonarMetricsModel = [];
-      this.selectedSonarMetrics.forEach(metric => sonarMetricsModel.push(this.fromSonarMetricToSonarMetricModel(metric)));
-      this.element.sonarMetrics = sonarMetricsModel;
-    }
-
-    const headers = this.getBaseHeader();
-    const urlParams = new Map<string, string>();
-    urlParams.set('dashboardId', this.dashboardId.toString());
-    console.log(this.element);
-
-    this.http.post<SonarModel>('/dashboard/element/sonar', undefined, urlParams, this.element, headers)
-      .subscribe(res => {
-        // TODO: emit event for dashboard component (parent)
-        this.eventElement.emit(res.body);
-        this.clearElement();
-        // @ts-ignore
-        $('#elementModal').modal('hide');
-      }, error => console.log(error.message));
-  }
-
-  editElement(): void {
-    console.log('Edit selected element');
+    this.onProcess.emit(this.modalRole);
   }
 
   clearElement(): void {
+    if (this.modalRole === this.modalRoles.EDITION) {
+      return;
+    }
     this.element = new ElementModel();
-    this.selectedSonarMetrics = [];
   }
 
-  getElementType(): ElementType {
-    if (this.element instanceof SonarModel) {
-      return ElementType.SONAR;
-    } else {
-      return ElementType.SONAR;
-    }
+  onComplete(element: ElementModel) {
+    // @ts-ignore
+    $(`#elementModal`).modal('hide');
+    this.eventElement.emit(element);
   }
-
-  getSonarMetrics() {
-    this.httpService.get('../../../assets/sonar-metrics.json')
-      .subscribe(data => this.sonarMetrics = data as [],
-        error => console.log(error.message));
-  }
-
-  onSelectMetric(val: string) {
-    const selectedSonarMetric = this.sonarMetrics.find(metric => +metric.id === +val);
-    if (selectedSonarMetric && !this.selectedSonarMetrics.includes(selectedSonarMetric)) {
-      this.selectedSonarMetrics.push(selectedSonarMetric);
-    }
-  }
-
-  removeMetric(metric: any) {
-    this.selectedSonarMetrics.splice(this.selectedSonarMetrics.findIndex(m => m === metric), 1);
-  }
-
-  fromSonarMetricToSonarMetricModel(metric: any): SonarMetricsModel {
-    const sonarMetricsModel = new SonarMetricsModel();
-    sonarMetricsModel.metric = metric.key;
-
-    return sonarMetricsModel;
-  }
-}
-
-export enum ModalRole {
-  CREATION, EDITION
 }

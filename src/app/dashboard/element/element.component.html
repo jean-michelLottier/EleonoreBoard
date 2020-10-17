@@ -1,4 +1,4 @@
-<div class="card card-element" *ngIf="element.type === elementTypes.SONAR">
+<div class="card card-element">
   <div class="card-header">
     <h5>{{element.projectName}}</h5>
     <div class="dropdown dropleft">
@@ -7,7 +7,7 @@
         <em class="fas fa-ellipsis-v"></em>
       </a>
       <div class="dropdown-menu" aria-labelledby="cardMenuLink">
-        <a class="dropdown-item" href="#">Modify</a>
+        <a class="dropdown-item" href="#" data-toggle="modal" [attr.data-target]="'#elementModal' + element.id">Modify</a>
         <a class="dropdown-item" href="#" data-toggle="modal" [attr.data-target]="'#delElementModal' + element.id">Delete</a>
       </div>
     </div>
@@ -16,6 +16,10 @@
     <app-sonar-element [component]="component" *ngIf="this.element.type === elementTypes.SONAR"></app-sonar-element>
   </div>
 </div>
+
+<app-element-modal [modalRole]="modalRoles.EDITION" [element]="element"
+                   [dashboardId]="dashboardId"
+                   (eventElement)="onElementEdited($event)"></app-element-modal>
 
 <div class="modal fade" [attr.id]="'delElementModal' + element.id" data-backdrop="static"
      tabindex="-1" role="dialog" attr.aria-labelledby="delElementModal{{element.id}}Label" aria-hidden="true">

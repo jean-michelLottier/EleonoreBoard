@@ -16,6 +16,7 @@ import {NavComponent} from './nav/nav.component';
 import {HttpService} from './common/services/app.http.service';
 import {LoginService} from './login/services/login.service';
 import {FluxService} from './common/services/app.flux.service';
+import {SonarModule} from './sonar/sonar.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {FluxService} from './common/services/app.flux.service';
     FormsModule,
     HttpClientModule,
     DashboardModule,
+    SonarModule,
     PipeModule,
     AppRoutingModule, // It has to be the last module imported
   ],

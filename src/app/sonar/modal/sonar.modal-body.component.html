@@ -1,0 +1,35 @@
+<div class="modal-body">
+  <div class="form-group">
+    <label for="eleonore-sonarurl-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}">URL</label>
+    <input type="text" id="eleonore-sonarurl-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}"
+           class="form-control is-invalid" name="eleonore-sonarurl"
+           placeholder="Base URL Sonar" [(ngModel)]="sonarElement.url" required minlength="5"/>
+  </div>
+  <div class="form-group">
+    <label for="eleonore-sonarprojectname-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}">Project
+      name</label>
+    <input type="text" id="eleonore-sonarprojectname-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}"
+           class="form-control" name="eleonore-sonarprojectname"
+           [(ngModel)]="sonarElement.projectName"/>
+  </div>
+  <div class="form-group">
+    <label for="eleonore-projectkey-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}">Project key</label>
+    <input type="text" id="eleonore-projectkey-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}"
+           class="form-control" name="eleonore-sonarprojectkey"
+           [(ngModel)]="sonarElement.projectKey" required/>
+  </div>
+  <div class="form-group">
+    <select class="form-control" (change)="onSelectMetric($event.target.value)">
+      <option *ngFor="let metric of getMetrics()" [value]="metric.id">{{metric.name}}</option>
+    </select>
+  </div>
+  <div class="container">
+    <ul class="list-inline">
+      <li class="list-inline-item" *ngFor="let metric of sonarElement.sonarMetrics">
+        <span class="badge badge-primary">{{metric.metric}}&nbsp;&nbsp;
+          <a [routerLink]="" (click)="removeMetric(metric)"><em class="fas fa-window-close"></em></a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</div>

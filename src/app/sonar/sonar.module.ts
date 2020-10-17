@@ -5,19 +5,24 @@ import {SonarService} from './services/app.sonar.service';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {PipeModule} from '../pipe/pipe.module';
+import {SonarModalBodyComponent} from './modal/sonar.modal-body.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   declarations: [
-    SonarElementComponent
+    SonarElementComponent,
+    SonarModalBodyComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     PipeModule,
+    RouterModule,
   ],
-  exports: [
-    SonarElementComponent,
-  ],
+    exports: [
+        SonarElementComponent,
+        SonarModalBodyComponent,
+    ],
   providers: [
     SonarService,
     HttpService,

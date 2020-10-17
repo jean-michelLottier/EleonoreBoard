@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {DashboardModel} from './models/dasboard.model';
 import {HttpService} from '../common/services/app.http.service';
 import {SonarModel} from '../sonar/models/sonar.model';
-import {ModalRole} from './element/modal/element.modal.component';
 import {ElementModel} from './models/element.model';
 import {Router} from '@angular/router';
 import {BaseComponent} from '../common/base-component';
 import {ElementType} from './models/element-type.enum';
+import {ModalRole} from './models/modal-role.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -65,8 +65,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
   }
 
   onElementDeleted(elementId: number): void {
-    // Reload the selected dashboard to take in count modification caused by the element removal
-    this.selectDashboard(this.selectedDashboard);
+    this.selectedDashboard.elements.splice(this.selectedDashboard.elements.findIndex((el => el.id === elementId)), 1);
   }
 
   selectDashboard(dashboard: DashboardModel): void {
