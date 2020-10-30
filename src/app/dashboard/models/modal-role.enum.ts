@@ -1,3 +1,3 @@
 export enum ModalRole {
-  CREATION, EDITION
+  CREATION, EDITION, CANCELLATION
 }

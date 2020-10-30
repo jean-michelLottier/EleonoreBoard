@@ -22,47 +22,66 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
   @Output()
   private processCompleted: EventEmitter<SonarModel>;
   types = ElementType;
+  private _selectedMetrics: SonarMetricsModel[];
 
   constructor(private sonarService: SonarService, protected router: Router) {
     super(router);
     this.onProcess = new EventEmitter<ModalRole>();
     this.processCompleted = new EventEmitter<SonarModel>();
+    this._selectedMetrics = new Array<SonarMetricsModel>();
   }
 
   ngOnInit(): void {
     this.sonarService.importSonarMetrics();
 
+    Object.assign(this._selectedMetrics, this._sonarElement.sonarMetrics);
+
     this.onProcess.subscribe(role => {
-      if (role === ModalRole.CREATION) {
-        this.create();
-      } else {
-        this.edit();
+      switch (role) {
+        case ModalRole.CREATION:
+          this.create();
+          break;
+        case ModalRole.EDITION:
+          this.edit();
+          break;
+        case ModalRole.CANCELLATION:
+        default:
+          this.cancel();
       }
     });
   }
 
   create(): void {
+    Object.assign(this._sonarElement.sonarMetrics, this._selectedMetrics);
     this.sonarService.create(this.getBaseHeader(), this._dashboardId, this._sonarElement).subscribe(res => {
       this.processCompleted.emit(res.body);
     }, error => console.log(error.message));
   }
 
   edit(): void {
+    Object.assign(this._sonarElement.sonarMetrics, this._selectedMetrics);
+    this.sonarService.edit(this.getBaseHeader(), this._sonarElement).subscribe(res => {
+      this.processCompleted.emit(res.body);
+    }, error => console.log(error.message));
+  }
 
+  cancel(): void {
+    this._selectedMetrics = new Array<SonarMetricsModel>();
+    Object.assign(this._selectedMetrics, this._sonarElement.sonarMetrics);
   }
 
   onSelectMetric(val: string) {
     const selectedSonarMetric = this.fromSonarMetricToSonarMetricModel(this.getMetrics().find(metric => +metric.id === +val));
-    if (selectedSonarMetric && !this._sonarElement.sonarMetrics.some(sonarMetric => sonarMetric.metric === selectedSonarMetric.metric)) {
-      this._sonarElement.sonarMetrics.push(selectedSonarMetric);
+    if (selectedSonarMetric && !this._selectedMetrics.some(sonarMetric => sonarMetric.metric === selectedSonarMetric.metric)) {
+      this._selectedMetrics.push(selectedSonarMetric);
     }
   }
 
   removeMetric(metric: any) {
-    this._sonarElement.sonarMetrics.splice(this._sonarElement.sonarMetrics.findIndex(m => m === metric), 1);
+    this._selectedMetrics.splice(this._selectedMetrics.findIndex(m => m === metric), 1);
   }
 
-  fromSonarMetricToSonarMetricModel(metric: any): SonarMetricsModel {
+  private fromSonarMetricToSonarMetricModel(metric: any): SonarMetricsModel {
     if (metric === undefined) {
       return undefined;
     }
@@ -91,5 +110,13 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
 
   set dashboardId(value: number) {
     this._dashboardId = value;
+  }
+
+  get selectedMetrics(): SonarMetricsModel[] {
+    return this._selectedMetrics;
+  }
+
+  set selectedMetrics(value: SonarMetricsModel[]) {
+    this._selectedMetrics = value;
   }
 }

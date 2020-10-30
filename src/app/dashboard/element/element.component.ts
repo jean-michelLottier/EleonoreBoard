@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../models/element.model';
-import {SonarService} from '../../sonar/services/app.sonar.service';
 import {HttpService} from '../../common/services/app.http.service';
 import {Router} from '@angular/router';
 import {BaseComponent} from '../../common/base-component';
@@ -18,36 +17,22 @@ export class ElementComponent extends BaseComponent implements OnInit {
   @Input()
   element: ElementModel;
   elementTypes = ElementType;
-  component: object;
   @Output()
   eventDeleteElt: EventEmitter<number>;
   modalRoles = ModalRole;
+  private _onProcess: EventEmitter<any>;
 
-  constructor(private sonarService: SonarService, private http: HttpService, protected router: Router) {
+  constructor(private http: HttpService, protected router: Router) {
     super(router);
     this.element = new ElementModel();
-    this.component = {};
     this.eventDeleteElt = new EventEmitter<number>();
+    this._onProcess = new EventEmitter<any>();
   }
 
   ngOnInit(): void {
     $(() => {
       $('[data-toggle="tooltip"]').tooltip({sanitize: false, sanitizeFn: content => content});
     });
-
-    this.getElementInformation();
-  }
-
-  getElementInformation() {
-    if (this.element.type === ElementType.SONAR.toString()) {
-      this.sonarService.getMetrics(this.element.id)
-        .subscribe(res => this.component = res.body
-          , error => {
-            if (error.status === 401) {
-              this.disconnect();
-            }
-          });
-    }
   }
 
   delete(): void {
@@ -73,5 +58,14 @@ export class ElementComponent extends BaseComponent implements OnInit {
 
   onElementEdited(editedElement: ElementModel): void {
     this.element = editedElement;
+    this._onProcess.emit();
+  }
+
+  get onProcess(): EventEmitter<any> {
+    return this._onProcess;
+  }
+
+  set onProcess(value: EventEmitter<any>) {
+    this._onProcess = value;
   }
 }

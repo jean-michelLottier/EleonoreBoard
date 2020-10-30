@@ -13,7 +13,9 @@
     </div>
   </div>
   <div class="card-body">
-    <app-sonar-element [component]="component" *ngIf="this.element.type === elementTypes.SONAR"></app-sonar-element>
+    <app-sonar-element *ngIf="this.element.type === elementTypes.SONAR"
+                       [elementId]="element.id" [_onProcess]="onProcess">
+    </app-sonar-element>
   </div>
 </div>
 

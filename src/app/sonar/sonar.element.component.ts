@@ -1,18 +1,40 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit} from '@angular/core';
 import {BaseComponent} from '../common/base-component';
 import {Router} from '@angular/router';
+import {SonarService} from './services/app.sonar.service';
 
 @Component({
   selector: 'app-sonar-element',
   templateUrl: 'sonar.element.component.html',
   styleUrls: ['sonar.element.component.sass']
 })
-export class SonarElementComponent extends BaseComponent {
+export class SonarElementComponent extends BaseComponent implements OnInit {
   @Input()
+  private elementId: number;
+  @Input()
+  private _onProcess!: EventEmitter<any>;
   component: object;
 
-  constructor(protected router: Router) {
+  constructor(protected router: Router, private sonarService: SonarService) {
     super(router);
+    this._onProcess = new EventEmitter<any>();
+  }
+
+  ngOnInit(): void {
+    this.getElementInformation();
+    this._onProcess.subscribe(data => {
+      this.getElementInformation();
+    });
+  }
+
+  getElementInformation(): void {
+    this.sonarService.getMetrics(this.elementId)
+      .subscribe(res => this.component = res.body
+        , error => {
+          if (error.status === 401) {
+            this.disconnect();
+          }
+        });
   }
 
   sortByMetric() {

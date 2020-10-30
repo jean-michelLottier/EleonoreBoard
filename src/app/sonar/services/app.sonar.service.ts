@@ -46,4 +46,8 @@ export class SonarService {
 
     return this.http.post<SonarModel>('/dashboard/element/sonar', undefined, urlParams, element, headers);
   }
+
+  edit(headers: Map<string, string>, element: SonarModel): Observable<HttpResponse<SonarModel>> {
+    return this.http.post<SonarModel>('/dashboard/element/sonar/modify', undefined, undefined, element, headers);
+  }
 }

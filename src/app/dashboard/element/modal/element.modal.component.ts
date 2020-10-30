@@ -38,6 +38,7 @@ export class ElementModalComponent extends BaseComponent implements OnInit {
   }
 
   clearElement(): void {
+    this.onProcess.emit(this.modalRoles.CANCELLATION);
     if (this.modalRole === this.modalRoles.EDITION) {
       return;
     }
@@ -46,7 +47,7 @@ export class ElementModalComponent extends BaseComponent implements OnInit {
 
   onComplete(element: ElementModel) {
     // @ts-ignore
-    $(`#elementModal`).modal('hide');
+    $(`#elementModal${this.element?.id !== undefined ? this.element.id : ''}`).modal('hide');
     this.eventElement.emit(element);
   }
 }

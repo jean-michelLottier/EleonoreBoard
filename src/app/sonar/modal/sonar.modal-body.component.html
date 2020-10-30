@@ -25,7 +25,7 @@
   </div>
   <div class="container">
     <ul class="list-inline">
-      <li class="list-inline-item" *ngFor="let metric of sonarElement.sonarMetrics">
+      <li class="list-inline-item" *ngFor="let metric of selectedMetrics">
         <span class="badge badge-primary">{{metric.metric}}&nbsp;&nbsp;
           <a [routerLink]="" (click)="removeMetric(metric)"><em class="fas fa-window-close"></em></a>
         </span>
