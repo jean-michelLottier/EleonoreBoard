@@ -6,5 +6,5 @@ export class SonarqubeModel {
   name: string;
   description: string;
   qualifier: string;
-  metrics: SonarqubeMetricsModel[];
+  measures: SonarqubeMetricsModel[];
 }

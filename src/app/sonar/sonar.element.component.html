@@ -26,7 +26,7 @@
       <div class="eleonore-category-item" *ngIf="item.metric !== 'duplicated_lines_density'">
         <em class="text-danger fas fa-exclamation-circle" *ngIf="item.bestValue === false">&nbsp;</em>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}} </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
       <div class="eleonore-category-item">
         <em class="text-danger fas fa-exclamation-circle" *ngIf="item.bestValue === false">&nbsp;</em>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}} </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
       </div>
     </div>
   </div>
@@ -53,12 +53,12 @@
   <div class="eleonore-category-content-flex">
     <div *ngFor="let item of getCategoryMaintainability()">
       <div class="eleonore-category-item"
-           *ngIf="item.metric === 'code_smells' || item.metric === 'new_code_smells'">
+           *ngIf="item.metric.includes('code_smells') || item.metric === 'new_development_cost'">
               <span class=" eleonore-bug-icon fa-stack">
                 <em class="fa fa-circle fa-stack-2x"></em>
                 <em class="fas fa-fan fa-stack-1x fa-inverse"></em>
               </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}}</span>
       </div>
       <div class="eleonore-sonar-rating eleonore-category-item" *ngIf="item.metric === 'sqale_rating'">
@@ -72,7 +72,7 @@
       </div>
       <div class="eleonore-category-item"
            *ngIf="item.metric === 'sqale_index' || item.metric === 'new_technical_debt'">
-        <span class="eleonore-xx-large">{{item.value | convertPeriod}}</span>
+        <span class="eleonore-xx-large">{{item.value !== null ? item.value : item.period.value | convertPeriod}}</span>
         <span *ngIf="item.metric === 'sqale_index'"> Debt</span>
         <span *ngIf="item.metric === 'new_technical_debt'"> New Debt</span>
       </div>
@@ -80,7 +80,7 @@
            *ngIf="item.metric === 'sqale_debt_ratio' || item.metric === 'new_sqale_debt_ratio'">
               <span class="eleonore-xx-large" data-toggle="tooltip" data-placement="bottom"
                     title="{{item.metric | replaceCharacters: '_': ' ' | capitalize: ' '}}">
-                <strong>{{item.value}}%</strong>
+                <strong>{{item.value !== null ? item.value : item.period.value}}%</strong>
               </span>
       </div>
     </div>
@@ -112,25 +112,25 @@
   <hr/>
   <div class="eleonore-category-content-flex">
     <div *ngFor="let item of getCategoryReliability()">
-      <div class="eleonore-category-item" *ngIf="item.metric === 'bugs' || item.metric === 'new_bugs'">
+      <div class="eleonore-category-item" *ngIf="item.metric.includes('bugs')">
               <span class=" eleonore-bug-icon fa-stack">
                 <em class="fa fa-circle fa-stack-2x"></em>
                 <em class="fas fa-bug fa-stack-1x fa-inverse"></em>
               </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}}</span>
       </div>
-      <div class="eleonore-sonar-rating eleonore-category-item" *ngIf="item.metric === 'reliability_rating'">
-              <span class="badge" [ngClass]="{'badge-success': item.value === '1.0',
-              'badge-warning': item.value === '2.0' || item.value === '3.0',
-              'badge-danger': item.value === '4.0' || item.value === '5.0'}"
+      <div class="eleonore-sonar-rating eleonore-category-item" *ngIf="item.metric.includes('reliability_rating')">
+              <span *ngIf="item.value !== null ? item.value : item.period.value; let value" class="badge" [ngClass]="{'badge-success': value === '1.0',
+              'badge-warning': value === '2.0' || value === '3.0',
+              'badge-danger': value === '4.0' || value === '5.0'}"
                     data-toggle="tooltip" data-placement="bottom"
                     title="{{item.metric | replaceCharacters: '_': ' ' | capitalize: ' '}}">
-                {{item.value | convertRating}}
+                {{value | convertRating}}
               </span>
       </div>
       <div class="eleonore-category-item"
-           *ngIf="item.metric !== 'bugs' && item.metric !== 'new_bugs' && item.metric !== 'reliability_rating'">
+           *ngIf="!item.metric.includes('bugs') && !item.metric.includes('new_bugs') && !item.metric.includes('reliability_rating')">
               <span class="eleonore-xx-large" data-toggle="tooltip" data-placement="bottom"
                     title="{{item.metric | replaceCharacters: '_': ' ' | capitalize: ' '}}">
                 {{item.value | convertPeriod}}
@@ -151,27 +151,26 @@
               <span class=" eleonore-bug-icon fa-stack">
                 <em class="fa fa-circle fa-stack-2x"></em>
                 <em *ngIf="item.metric === 'new_vulnerabilities'" class="fas fa-unlock-alt fa-stack-1x fa-inverse"></em>
-                <em *ngIf="item.metric === 'security_hotspots'" class="fas fa-shield-alt fa-stack-1x fa-inverse"></em>
+                <em *ngIf="item.metric.includes('hotspots')" class="fas fa-shield-alt fa-stack-1x fa-inverse"></em>
               </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}}</span>
       </div>
       <div class="eleonore-sonar-rating eleonore-category-item"
-           *ngIf="item.metric === 'security_rating' || item.metric === 'security_review_rating'
-                  || item.metric === 'new_security_review_rating'">
-              <span class="badge" [ngClass]="{'badge-success': item.value === '1.0',
-              'badge-warning': item.value === '2.0' || item.value === '3.0',
-              'badge-danger': item.value === '4.0' || item.value === '5.0'}"
+           *ngIf="item.metric.includes('security_rating') || item.metric.includes('security_review_rating')">
+              <span *ngIf="item.value !== null ? item.value : item.period.value; let value" class="badge" [ngClass]="{'badge-success': value === '1.0',
+              'badge-warning': value === '2.0' || value === '3.0',
+              'badge-danger': value === '4.0' || value === '5.0'}"
                     data-toggle="tooltip" data-placement="bottom"
                     title="{{item.metric | replaceCharacters: '_': ' ' | capitalize: ' '}}">
-                {{item.value | convertRating}}
+                {{value | convertRating}}
               </span>
       </div>
       <div class="eleonore-category-item"
-           *ngIf="item.metric === 'security_remediation_effort' || item.metric === 'new_security_remediation_effort'">
+           *ngIf="item.metric.includes('security_remediation_effort')">
         <em class="text-danger fas fa-exclamation-circle" *ngIf="item.bestValue === false">&nbsp;</em>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}} </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
       </div>
       <div class="eleonore-category-item" *ngIf="item.metric === 'security_hotspots_reviewed'">
               <span class="eleonore-xx-large" data-toggle="tooltip" data-placement="bottom"
@@ -244,7 +243,7 @@
                 item.metric !== 'coverage' && item.metric !== 'line_coverage' && item.metric !== 'test_success_density'">
         <em class="text-danger fas fa-exclamation-circle" *ngIf="item.bestValue === false">&nbsp;</em>
         <span>{{item.metric | replaceCharacters:'_' :' ' | capitalize: ' '}} </span>
-        <span class="eleonore-xx-large"><strong>{{item.value}}</strong></span>
+        <span class="eleonore-xx-large"><strong>{{item.value !== null ? item.value : item.period.value}}</strong></span>
       </div>
     </div>
   </div>

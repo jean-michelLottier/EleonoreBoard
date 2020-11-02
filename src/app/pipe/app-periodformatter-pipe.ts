@@ -2,7 +2,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({name: 'convertPeriod'})
 export class PeriodFormatterPipe implements PipeTransform {
-  transform(value: number, ...args: any[]): string {
+  transform(valueStr: string, ...args: any[]): string {
+    const value = parseInt(valueStr, 10);
     const hour = Math.floor(value / 60);
     const minutes = value - hour * 60;
 
