@@ -19,9 +19,12 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
   private _sonarElement: SonarModel;
   @Input()
   private onProcess!: EventEmitter<ModalRole>;
+  @Input()
+  private _modalRole: ModalRole;
   @Output()
   private processCompleted: EventEmitter<SonarModel>;
   types = ElementType;
+  modalRoles = ModalRole;
   private _selectedMetrics: SonarMetricsModel[];
 
   constructor(private sonarService: SonarService, protected router: Router) {
@@ -43,6 +46,9 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
           break;
         case ModalRole.EDITION:
           this.edit();
+          break;
+        case ModalRole.DELETION:
+          this.delete();
           break;
         case ModalRole.CANCELLATION:
         default:
@@ -68,6 +74,19 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
   cancel(): void {
     this._selectedMetrics = new Array<SonarMetricsModel>();
     Object.assign(this._selectedMetrics, this._sonarElement.sonarMetrics);
+  }
+
+  delete(): void {
+    this.sonarService.delete(this.getBaseHeader(), this._dashboardId, this._sonarElement)
+      .subscribe(res => {
+        this.processCompleted.emit(this._sonarElement);
+      }, error => {
+        if (error.status === 401) {
+          // @ts-ignore
+          $(`#delElementModal${this._sonarElement.id}`).modal('hide');
+          this.disconnect();
+        }
+      });
   }
 
   onSelectMetric(val: string) {
@@ -118,5 +137,13 @@ export class SonarModalBodyComponent extends BaseComponent implements OnInit {
 
   set selectedMetrics(value: SonarMetricsModel[]) {
     this._selectedMetrics = value;
+  }
+
+  get modalRole(): ModalRole {
+    return this._modalRole;
+  }
+
+  set modalRole(value: ModalRole) {
+    this._modalRole = value;
   }
 }

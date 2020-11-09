@@ -133,7 +133,7 @@
            *ngIf="!item.metric.includes('bugs') && !item.metric.includes('new_bugs') && !item.metric.includes('reliability_rating')">
               <span class="eleonore-xx-large" data-toggle="tooltip" data-placement="bottom"
                     title="{{item.metric | replaceCharacters: '_': ' ' | capitalize: ' '}}">
-                {{item.value | convertPeriod}}
+                {{item.value !== null ? item.value : item.period.value | convertPeriod}}
               </span>
       </div>
     </div>

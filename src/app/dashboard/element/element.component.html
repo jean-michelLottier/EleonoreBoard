@@ -7,8 +7,16 @@
         <em class="fas fa-ellipsis-v"></em>
       </a>
       <div class="dropdown-menu" aria-labelledby="cardMenuLink">
-        <a class="dropdown-item" href="#" data-toggle="modal" [attr.data-target]="'#elementModal' + element.id">Modify</a>
-        <a class="dropdown-item" href="#" data-toggle="modal" [attr.data-target]="'#delElementModal' + element.id">Delete</a>
+        <a class="dropdown-item" href="#" data-toggle="modal"
+           (click)="modalRoleSelected = modalRoles.EDITION"
+           [attr.data-target]="'#elementModal' + element.id">
+          Modify
+        </a>
+        <a class="dropdown-item" href="#" data-toggle="modal"
+           (click)="modalRoleSelected = modalRoles.DELETION"
+           [attr.data-target]="'#delElementModal' + element.id">
+          Delete
+        </a>
       </div>
     </div>
   </div>
@@ -19,25 +27,6 @@
   </div>
 </div>
 
-<app-element-modal [modalRole]="modalRoles.EDITION" [element]="element"
+<app-element-modal [modalRole]="modalRoleSelected" [element]="element"
                    [dashboardId]="dashboardId"
-                   (eventElement)="onElementEdited($event)"></app-element-modal>
-
-<div class="modal fade" [attr.id]="'delElementModal' + element.id" data-backdrop="static"
-     tabindex="-1" role="dialog" attr.aria-labelledby="delElementModal{{element.id}}Label" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="delElementModal{{element.id}}Label">Suppression</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">Êtes-vous sûr de vouloir supprimer le projet {{element.projectName}} ?</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
-        <button type="submit" class="btn btn-primary" (click)="delete()">Oui</button>
-      </div>
-    </div>
-  </div>
-</div>
+                   (eventElement)="onComplete($event)"></app-element-modal>

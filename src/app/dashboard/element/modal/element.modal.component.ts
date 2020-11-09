@@ -46,8 +46,14 @@ export class ElementModalComponent extends BaseComponent implements OnInit {
   }
 
   onComplete(element: ElementModel) {
-    // @ts-ignore
-    $(`#elementModal${this.element?.id !== undefined ? this.element.id : ''}`).modal('hide');
+    if (this.modalRole === this.modalRoles.DELETION) {
+      // @ts-ignore
+      $(`#delElementModal${this.element?.id !== undefined ? this.element.id : ''}`).modal('hide');
+    } else {
+      // @ts-ignore
+      $(`#elementModal${this.element?.id !== undefined ? this.element.id : ''}`).modal('hide');
+    }
+
     this.eventElement.emit(element);
   }
 }

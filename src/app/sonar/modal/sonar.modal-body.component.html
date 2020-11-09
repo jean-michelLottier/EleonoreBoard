@@ -1,4 +1,4 @@
-<div class="modal-body">
+<div class="modal-body" *ngIf="modalRole !== modalRoles.DELETION">
   <div class="form-group">
     <label for="eleonore-sonarurl-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}">URL</label>
     <input type="text" id="eleonore-sonarurl-id{{sonarElement?.id !== undefined ? sonarElement?.id : 0}}"
@@ -32,4 +32,8 @@
       </li>
     </ul>
   </div>
+</div>
+
+<div class="modal-body" *ngIf="modalRole === modalRoles.DELETION">
+  Êtes-vous sûr de vouloir supprimer le projet {{sonarElement.projectName}} ?
 </div>

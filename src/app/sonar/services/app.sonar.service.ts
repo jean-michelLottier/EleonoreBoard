@@ -50,4 +50,13 @@ export class SonarService {
   edit(headers: Map<string, string>, element: SonarModel): Observable<HttpResponse<SonarModel>> {
     return this.http.post<SonarModel>('/dashboard/element/sonar/modify', undefined, undefined, element, headers);
   }
+
+  delete(headers: Map<string, string>, dashboardId: number, element: SonarModel): Observable<HttpResponse<object>> {
+    const urlParams = new Map<string, string>();
+    urlParams.set('dashboardId', String(dashboardId));
+    urlParams.set('elementId', String(element.id));
+    urlParams.set('type', element.type);
+
+    return this.http.delete('/dashboard/element/sonar', undefined, urlParams, headers);
+  }
 }

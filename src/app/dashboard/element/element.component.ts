@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ElementModel} from '../models/element.model';
-import {HttpService} from '../../common/services/app.http.service';
 import {Router} from '@angular/router';
 import {BaseComponent} from '../../common/base-component';
 import {ElementType} from '../models/element-type.enum';
@@ -21,8 +20,9 @@ export class ElementComponent extends BaseComponent implements OnInit {
   eventDeleteElt: EventEmitter<number>;
   modalRoles = ModalRole;
   private _onProcess: EventEmitter<any>;
+  private _modalRoleSelected: ModalRole;
 
-  constructor(private http: HttpService, protected router: Router) {
+  constructor(protected router: Router) {
     super(router);
     this.element = new ElementModel();
     this.eventDeleteElt = new EventEmitter<number>();
@@ -35,30 +35,13 @@ export class ElementComponent extends BaseComponent implements OnInit {
     });
   }
 
-  delete(): void {
-    const headers = this.getBaseHeader();
-    const urlParams = new Map<string, string>();
-    urlParams.set('dashboardId', String(this.dashboardId));
-    urlParams.set('elementId', String(this.element.id));
-    urlParams.set('type', this.element.type);
-
-    this.http.delete('/dashboard/element', undefined, urlParams, headers)
-      .subscribe(res => {
-        // @ts-ignore
-        $(`#delElementModal${this.element.id}`).modal('hide');
-        this.eventDeleteElt.emit(this.element.id);
-      }, error => {
-        if (error.status === 401) {
-          // @ts-ignore
-          $(`#delElementModal${this.element.id}`).modal('hide');
-          this.disconnect();
-        }
-      });
-  }
-
-  onElementEdited(editedElement: ElementModel): void {
-    this.element = editedElement;
-    this._onProcess.emit();
+  onComplete(element: ElementModel): void {
+    if (this._modalRoleSelected === this.modalRoles.DELETION) {
+      this.eventDeleteElt.emit(element.id);
+    } else {
+      this.element = element;
+      this._onProcess.emit();
+    }
   }
 
   get onProcess(): EventEmitter<any> {
@@ -67,5 +50,13 @@ export class ElementComponent extends BaseComponent implements OnInit {
 
   set onProcess(value: EventEmitter<any>) {
     this._onProcess = value;
+  }
+
+  get modalRoleSelected(): ModalRole {
+    return this._modalRoleSelected;
+  }
+
+  set modalRoleSelected(value: ModalRole) {
+    this._modalRoleSelected = value;
   }
 }
